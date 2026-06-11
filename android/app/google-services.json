@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "806505646912",
+    "project_id": "app-raiz-fe525",
+    "storage_bucket": "app-raiz-fe525.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:806505646912:android:8a8ce09efbb6c56981c8a5",
+        "android_client_info": {
+          "package_name": "com.example.app_raiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAktJjUwD2jPkItGPgnb7nVH2It07IoMhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
