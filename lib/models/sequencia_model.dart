@@ -1,15 +1,19 @@
 enum Atacante { a, b }
 
+// ── Sequências pareadas (A vs B) ──────────────────────
 class Movimento {
   final String nomeA;
   final String nomeB;
-  final Atacante atacante;
+  // null = movimento de finalização (só um lado)
+  final Atacante? atacante;
 
   const Movimento({
-    required this.nomeA,
-    required this.nomeB,
-    required this.atacante,
+    this.nomeA = '',
+    this.nomeB = '',
+    this.atacante,
   });
+
+  bool get ehFinalizacao => atacante == null;
 }
 
 class Sequencia {
@@ -24,16 +28,38 @@ class Sequencia {
   });
 }
 
+// ── Drills individuais (Entrada e Saída) ──────────────
+class MovimentoDrill {
+  final String nome;
+  final String repeticoes;
+
+  const MovimentoDrill({required this.nome, required this.repeticoes});
+}
+
+class GrupoDrills {
+  final String titulo;
+  final List<MovimentoDrill> movimentos;
+
+  const GrupoDrills({required this.titulo, required this.movimentos});
+}
+
+// ── Categorias ────────────────────────────────────────
 class CategoriaSequencias {
   final String nome;
   final String descricao;
   final String? pdfAssetPath;
+  // Para sequências pareadas
   final List<Sequencia> sequencias;
+  // Para drills individuais
+  final List<GrupoDrills> drills;
+  final bool ehDrill;
 
   const CategoriaSequencias({
     required this.nome,
     required this.descricao,
     this.pdfAssetPath,
-    required this.sequencias,
+    this.sequencias = const [],
+    this.drills = const [],
+    this.ehDrill = false,
   });
 }

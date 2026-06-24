@@ -1,179 +1,213 @@
 import '../models/sequencia_model.dart';
 
-// ─────────────────────────────────────────────
-// SEQUÊNCIAS DE ENTRADA E SAÍDA
-// ─────────────────────────────────────────────
-const List<Sequencia> sequenciasEntradaSaida = [
-  Sequencia(
-    numero: 1,
+// ─────────────────────────────────────────────────────────────────────────────
+// DRILLS DE ENTRADA E SAÍDA (exercícios individuais)
+// ─────────────────────────────────────────────────────────────────────────────
+const List<GrupoDrills> drillsEntradaSaida = [
+  GrupoDrills(
+    titulo: 'Entrada',
     movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Aú (saída)', nomeB: 'Ginga (retorno)', atacante: Atacante.b),
+      MovimentoDrill(nome: 'Ginga',                    repeticoes: '4x'),
+      MovimentoDrill(nome: 'Ponteira',                 repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Martelo',                  repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Benção',                   repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Chapa',                    repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Meia lua de frente',       repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Queixada sem esquiva',     repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Queixada com esquiva',     repeticoes: '2x cada perna'),
     ],
-    observacao: 'Sequência básica de entrada pelo pé do berimbau.',
   ),
-  Sequencia(
-    numero: 2,
+  GrupoDrills(
+    titulo: 'Saída',
     movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Benção', nomeB: 'Esquiva lateral', atacante: Atacante.a),
-      Movimento(nomeA: 'Ginga (retorno)', nomeB: 'Aú (saída)', atacante: Atacante.b),
-    ],
-    observacao: 'Entrada com benção e saída pelo aú.',
-  ),
-  Sequencia(
-    numero: 3,
-    movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Queixada', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Rolê (saída)', nomeB: 'Ginga (retorno)', atacante: Atacante.b),
+      MovimentoDrill(nome: 'Ginga',                    repeticoes: '4x'),
+      MovimentoDrill(nome: 'Rasteira em pé',           repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Esquiva lateral',          repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Cocorinha',                repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Mola',                     repeticoes: '2x cada perna'),
+      MovimentoDrill(nome: 'Negativa',                 repeticoes: '2x cada perna'),
     ],
   ),
 ];
 
-// ─────────────────────────────────────────────
-// SEQUÊNCIAS DE BIMBA (8 sequências clássicas)
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// SEQUÊNCIAS DE BIMBA (8 sequências pareadas)
+// ─────────────────────────────────────────────────────────────────────────────
 const List<Sequencia> sequenciasBimba = [
   Sequencia(
     numero: 1,
     movimentos: [
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Galopante', nomeB: 'Mola resistência', atacante: Atacante.a),
-      Movimento(nomeA: 'Tesoura de frente', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',            atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',            atacante: Atacante.a),
+      Movimento(nomeA: 'Armada',             nomeB: 'Negativa',             atacante: Atacante.a),
+      Movimento(nomeB: 'Saída: Aú pelas costas'), // B finaliza
     ],
-    observacao: 'Sequência de abertura com tesoura de finalização.',
   ),
   Sequencia(
     numero: 2,
     movimentos: [
-      Movimento(nomeA: 'Benção', nomeB: 'Esquiva lateral', atacante: Atacante.a),
-      Movimento(nomeA: 'Mola', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Martelo no chão', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Queixada',     nomeB: 'Cocorinha',   atacante: Atacante.a),
+      Movimento(nomeA: 'Queixada',     nomeB: 'Cocorinha',   atacante: Atacante.a),
+      Movimento(nomeA: 'Cocorinha',    nomeB: 'Armada',      atacante: Atacante.b),
+      Movimento(nomeA: 'Benção',       nomeB: 'Negativa',    atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Cabeçada',   atacante: Atacante.b),
     ],
   ),
   Sequencia(
     numero: 3,
     movimentos: [
-      Movimento(nomeA: 'Queixada', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Cocorinha', nomeB: 'Armada', atacante: Atacante.b),
-      Movimento(nomeA: 'Galopante', nomeB: 'Mola', atacante: Atacante.a),
-      Movimento(nomeA: 'Giro', nomeB: 'Cintura desprezada', atacante: Atacante.b),
+      Movimento(nomeA: 'Martelo',      nomeB: 'Cutila',      atacante: Atacante.a),
+      Movimento(nomeA: 'Martelo',      nomeB: 'Cutila',      atacante: Atacante.a),
+      Movimento(nomeA: 'Cocorinha',    nomeB: 'Armada',      atacante: Atacante.b),
+      Movimento(nomeA: 'Benção',       nomeB: 'Negativa',    atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Cabeçada',   atacante: Atacante.b),
     ],
-    observacao: 'Sequência com inversão de ataque e cintura desprezada.',
   ),
   Sequencia(
     numero: 4,
     movimentos: [
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Esquiva', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Armada', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Martelo', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Godeme',       nomeB: 'Palma',       atacante: Atacante.a),
+      Movimento(nomeA: 'Godeme',       nomeB: 'Palma',       atacante: Atacante.a),
+      Movimento(nomeA: 'Arrastão',     nomeB: 'Galopante',   atacante: Atacante.b),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Negativa',   atacante: Atacante.b),
+      Movimento(nomeB: 'Cabeçada'), // B finaliza
     ],
   ),
   Sequencia(
     numero: 5,
     movimentos: [
-      Movimento(nomeA: 'Benção', nomeB: 'Desvio lateral', atacante: Atacante.a),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Queda de rins', nomeB: 'Meia lua de frente', atacante: Atacante.b),
-      Movimento(nomeA: 'Tesoura de costas', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Giro',         nomeB: 'Cabeçada',   atacante: Atacante.a),
+      Movimento(nomeA: 'Joelhada',     nomeB: 'Negativa',   atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Cabeçada',  atacante: Atacante.b),
     ],
-    observacao: 'Contra-ataque com tesoura de costas.',
   ),
   Sequencia(
     numero: 6,
     movimentos: [
-      Movimento(nomeA: 'Queixada', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Armada', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Mola', nomeB: 'Galopante', atacante: Atacante.b),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Rasteira', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Cocorinha',          atacante: Atacante.a),
+      Movimento(nomeA: 'Cocorinha',            nomeB: 'Meia lua de compasso', atacante: Atacante.b),
+      Movimento(nomeA: 'Joelhada',             nomeB: 'Negativa',           atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',          nomeB: 'Cabeçada',          atacante: Atacante.a),
     ],
   ),
   Sequencia(
     numero: 7,
     movimentos: [
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Pulada', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Benção', nomeB: 'Desvio', atacante: Atacante.a),
-      Movimento(nomeA: 'Queda de rins', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Tesoura de costas', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Armada',       nomeB: 'Cocorinha',  atacante: Atacante.a),
+      Movimento(nomeA: 'Cocorinha',    nomeB: 'Armada',     atacante: Atacante.b),
+      Movimento(nomeA: 'Benção',       nomeB: 'Negativa',   atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Cabeçada',  atacante: Atacante.b),
     ],
-    observacao: 'Sequência longa com dois contra-ataques.',
   ),
   Sequencia(
     numero: 8,
     movimentos: [
-      Movimento(nomeA: 'Armada', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Godeme', nomeB: 'Esquiva', atacante: Atacante.a),
-      Movimento(nomeA: 'Benção', nomeB: 'Desvio lateral', atacante: Atacante.a),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Rasteira', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Benção',       nomeB: 'Negativa',   atacante: Atacante.a),
+      Movimento(nomeA: 'Aú com rolê',  nomeB: 'Cabeçada',  atacante: Atacante.b),
     ],
-    observacao: 'Sequência de pressão contínua de A com rasteira final.',
   ),
 ];
 
-// ─────────────────────────────────────────────
-// SEQUÊNCIAS DO GRUPO
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// SEQUÊNCIAS DO GRUPO (10 sequências pareadas)
+// ─────────────────────────────────────────────────────────────────────────────
 const List<Sequencia> sequenciasGrupo = [
   Sequencia(
     numero: 1,
     movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Mola', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Rasteira', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',   atacante: Atacante.a),
+      Movimento(nomeA: 'Armada',             nomeB: 'Vingativa',   atacante: Atacante.a),
+      Movimento(nomeA: 'Tesoura de costas'), // A finaliza
     ],
   ),
   Sequencia(
     numero: 2,
     movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Queixada', nomeB: 'Aú', atacante: Atacante.a),
-      Movimento(nomeA: 'Cocorinha', nomeB: 'Armada', atacante: Atacante.b),
-      Movimento(nomeA: 'Galopante', nomeB: 'Mola', atacante: Atacante.a),
-      Movimento(nomeA: 'Tesoura de frente', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Martelo', nomeB: 'Rasteira em pé',  atacante: Atacante.a),
+      Movimento(nomeA: 'Armada',  nomeB: 'Banda de costas', atacante: Atacante.a),
     ],
   ),
   Sequencia(
     numero: 3,
     movimentos: [
-      Movimento(nomeA: 'Ginga', nomeB: 'Ginga', atacante: Atacante.a),
-      Movimento(nomeA: 'Benção', nomeB: 'Esquiva lateral', atacante: Atacante.a),
-      Movimento(nomeA: 'Esquiva', nomeB: 'Rabo de arraia', atacante: Atacante.b),
-      Movimento(nomeA: 'Armada', nomeB: 'Cocorinha', atacante: Atacante.a),
-      Movimento(nomeA: 'Godeme', nomeB: 'Esquiva', atacante: Atacante.a),
-      Movimento(nomeA: 'Rasteira', nomeB: 'Queda', atacante: Atacante.a),
+      Movimento(nomeA: 'Queixada', nomeB: 'Rasteira em pé',   atacante: Atacante.a),
+      Movimento(nomeA: 'Gancho',   nomeB: 'Rasteira baiana',  atacante: Atacante.a),
+      Movimento(nomeA: 'Aú'), // A finaliza
     ],
-    observacao: 'Sequência longa do grupo com finalização em rasteira.',
+  ),
+  Sequencia(
+    numero: 4,
+    movimentos: [
+      Movimento(nomeA: 'Martelo',            nomeB: 'Rasteira em pé',       atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Negativa com tesoura', atacante: Atacante.a),
+      Movimento(nomeA: 'Aú'), // A finaliza
+    ],
+  ),
+  Sequencia(
+    numero: 5,
+    movimentos: [
+      Movimento(nomeA: 'Armada',                       nomeB: 'Rasteira baiana', atacante: Atacante.a),
+      Movimento(nomeA: 'Salto giratório com joelhada', nomeB: 'Cavalete com rolê', atacante: Atacante.a),
+    ],
+  ),
+  Sequencia(
+    numero: 6,
+    movimentos: [
+      Movimento(nomeA: 'Martelo voador', nomeB: 'Chapéu de couro', atacante: Atacante.a),
+      Movimento(nomeA: 'Tesoura de frente'), // A finaliza
+    ],
+  ),
+  Sequencia(
+    numero: 7,
+    movimentos: [
+      Movimento(nomeA: 'Martelo', nomeB: 'Chapa giratória', atacante: Atacante.a),
+      Movimento(nomeA: 'Mola resistência'), // A finaliza
+    ],
+  ),
+  Sequencia(
+    numero: 8,
+    movimentos: [
+      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Meia lua solta', atacante: Atacante.a),
+      Movimento(nomeA: 'Cabeçada',             nomeB: 'Rolê',           atacante: Atacante.a),
+    ],
+  ),
+  Sequencia(
+    numero: 9,
+    movimentos: [
+      Movimento(nomeA: 'Armada',         nomeB: 'Meia lua solta', atacante: Atacante.a),
+      Movimento(nomeA: 'Tesoura de frente'), // A finaliza
+    ],
+  ),
+  Sequencia(
+    numero: 10,
+    movimentos: [
+      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',              atacante: Atacante.a),
+      Movimento(nomeA: 'Tesoura de costas',  nomeB: 'Meia lua de compasso',   atacante: Atacante.a),
+    ],
+    observacao: 'B responde com Meia lua de compasso durante a Tesoura.',
   ),
 ];
 
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 // CATEGORIAS
-// ─────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 const List<CategoriaSequencias> categoriasSequencias = [
   CategoriaSequencias(
     nome: 'Entrada e Saída',
-    descricao: 'Sequências básicas de entrada e saída do jogo',
+    descricao: 'Exercícios de entrada e saída do jogo',
     pdfAssetPath: 'assets/apostilas/sequencias.pdf',
-    sequencias: sequenciasEntradaSaida,
+    ehDrill: true,
+    drills: drillsEntradaSaida,
   ),
   CategoriaSequencias(
     nome: 'Sequências de Bimba',
-    descricao: '8 sequências clássicas criadas por Mestre Bimba',
+    descricao: '8 sequências clássicas de Mestre Bimba',
     pdfAssetPath: 'assets/apostilas/sequencias.pdf',
     sequencias: sequenciasBimba,
   ),
   CategoriaSequencias(
     nome: 'Sequências do Grupo',
-    descricao: 'Sequências desenvolvidas pelo Raiz dos Palmares',
+    descricao: '10 sequências do Raiz dos Palmares',
     pdfAssetPath: 'assets/apostilas/sequencias.pdf',
     sequencias: sequenciasGrupo,
   ),
