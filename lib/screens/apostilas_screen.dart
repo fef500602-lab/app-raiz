@@ -19,6 +19,7 @@ class _ApostilaMarkdown extends _ApostilaItem {
   @override final IconData icone;
   final String assetPath;
   final String? pdfAssetPath;
+  final String? pdfOriginalAssetPath;
 
   _ApostilaMarkdown({
     required this.titulo,
@@ -26,6 +27,7 @@ class _ApostilaMarkdown extends _ApostilaItem {
     this.icone = Icons.auto_stories_outlined,
     required this.assetPath,
     this.pdfAssetPath,
+    this.pdfOriginalAssetPath,
   });
 
   @override
@@ -37,6 +39,7 @@ class _ApostilaMarkdown extends _ApostilaItem {
           title: titulo,
           assetPath: assetPath,
           pdfAssetPath: pdfAssetPath,
+          pdfOriginalAssetPath: pdfOriginalAssetPath,
         ),
       ),
     );
@@ -75,6 +78,7 @@ final List<_ApostilaItem> _itens = [
     subtitulo: 'História, golpes, graduação e muito mais',
     assetPath: 'assets/apostilas/apostila_raiz_dos_palmares.md',
     pdfAssetPath: 'assets/apostilas/Apostila_Raiz_dos_Palmares_Fundo_Claro.pdf',
+    pdfOriginalAssetPath: 'assets/apostilas/Apostila_Raiz_dos_Palmares.pdf',
   ),
   _ApostilaSequencias(
     titulo: 'Sequências de Entrada e Saída',

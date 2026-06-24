@@ -40,7 +40,7 @@ const List<Sequencia> sequenciasBimba = [
       Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',            atacante: Atacante.a),
       Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',            atacante: Atacante.a),
       Movimento(nomeA: 'Armada',             nomeB: 'Negativa',             atacante: Atacante.a),
-      Movimento(nomeB: 'Saída: Aú pelas costas'), // B finaliza
+      Movimento(nomeA: 'Saída: Aú pelas costas'), // A finaliza
     ],
   ),
   Sequencia(

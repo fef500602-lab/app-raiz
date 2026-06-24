@@ -1,5 +1,7 @@
 # Apostila Raiz dos Palmares
 
+**Autor: Mestre Arlindo**
+
 ---
 
 ## Agradecimentos
@@ -347,5 +349,4 @@ Não importa qual seja a sua idade, condição financeira, religião... Levante 
 - *Capoeira Angola* — Waldeloir Rego
 - *Negros Brasileiros* — Janotti, M.L.M. Ed. Especial vol. 8
 - *Capoeira e Educação Física* — Trabalho de Conclusão de Curso, Arlindo Rodrigues, 1996
-- *A Capoeira Angola na Bahia* — Mestre Bola Sete. Ed. Pallas
-- Sites da Internet
+- *A Capoeira Angola na Bahia* — Mestre Bola Sete. Ed. 
