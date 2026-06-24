@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/videos_screen.dart';
+import 'screens/apostilas_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,6 +56,15 @@ class HomeScreen extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const VideosScreen()),
+            ),
+          ),
+          _MenuCard(
+            icon: Icons.menu_book_outlined,
+            title: 'Apostilas',
+            subtitle: 'Apostila oficial e sequências',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ApostilasScreen()),
             ),
           ),
           // Próximos módulos serão adicionados aqui

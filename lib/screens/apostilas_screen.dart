@@ -1,32 +1,104 @@
 import 'package:flutter/material.dart';
 import 'apostila_screen.dart';
+import 'sequencia_list_screen.dart';
+import '../data/sequencias_data.dart';
 
-class ApostilaItem {
-  final String title;
-  final String subtitle;
-  final String assetPath;
-  final String? pdfAssetPath;
-  final IconData icon;
-
-  const ApostilaItem({
-    required this.title,
-    required this.subtitle,
-    required this.assetPath,
-    this.pdfAssetPath,
-    this.icon = Icons.menu_book_outlined,
-  });
+// ──────────────────────────────────────────────
+// Item genérico da lista de apostilas
+// ──────────────────────────────────────────────
+abstract class _ApostilaItem {
+  String get titulo;
+  String get subtitulo;
+  IconData get icone;
+  void abrir(BuildContext context);
 }
 
-const List<ApostilaItem> apostilas = [
-  ApostilaItem(
-    title: 'Apostila Raiz dos Palmares',
-    subtitle: 'História, golpes, graduação e muito mais',
+class _ApostilaMarkdown extends _ApostilaItem {
+  @override final String titulo;
+  @override final String subtitulo;
+  @override final IconData icone;
+  final String assetPath;
+  final String? pdfAssetPath;
+
+  _ApostilaMarkdown({
+    required this.titulo,
+    required this.subtitulo,
+    this.icone = Icons.auto_stories_outlined,
+    required this.assetPath,
+    this.pdfAssetPath,
+  });
+
+  @override
+  void abrir(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ApostilaScreen(
+          title: titulo,
+          assetPath: assetPath,
+          pdfAssetPath: pdfAssetPath,
+        ),
+      ),
+    );
+  }
+}
+
+class _ApostilaSequencias extends _ApostilaItem {
+  @override final String titulo;
+  @override final String subtitulo;
+  @override final IconData icone;
+  final int categoriaIndex;
+
+  _ApostilaSequencias({
+    required this.titulo,
+    required this.subtitulo,
+    required this.icone,
+    required this.categoriaIndex,
+  });
+
+  @override
+  void abrir(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SequenciaListScreen(
+          categoria: categoriasSequencias[categoriaIndex],
+        ),
+      ),
+    );
+  }
+}
+
+final List<_ApostilaItem> _itens = [
+  _ApostilaMarkdown(
+    titulo: 'Apostila Raiz dos Palmares',
+    subtitulo: 'História, golpes, graduação e muito mais',
     assetPath: 'assets/apostilas/apostila_raiz_dos_palmares.md',
-    pdfAssetPath: 'assets/apostilas/Apostila_Raiz_dos_Palmares.pdf',
-    icon: Icons.auto_stories_outlined,
+    pdfAssetPath: 'assets/apostilas/Apostila_Raiz_dos_Palmares_Fundo_Claro.pdf',
+  ),
+  _ApostilaSequencias(
+    titulo: 'Sequências de Entrada e Saída',
+    subtitulo: 'Técnicas de entrada e saída do jogo',
+    icone: Icons.compare_arrows_rounded,
+    categoriaIndex: 0,
+  ),
+  _ApostilaSequencias(
+    titulo: 'Sequências de Bimba',
+    subtitulo: '8 sequências clássicas de Mestre Bimba',
+    icone: Icons.loop_rounded,
+    categoriaIndex: 1,
+  ),
+  _ApostilaSequencias(
+    titulo: 'Sequências do Grupo',
+    subtitulo: 'Sequências do Raiz dos Palmares',
+    icone: Icons.groups_outlined,
+    categoriaIndex: 2,
   ),
 ];
 
+// ──────────────────────────────────────────────
+// Tela principal de Apostilas
+// ──────────────────────────────────────────────
 class ApostilasScreen extends StatelessWidget {
   const ApostilasScreen({super.key});
 
@@ -42,13 +114,36 @@ class ApostilasScreen extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: ListView.separated(
+      body: ListView.builder(
         padding: const EdgeInsets.all(16),
-        itemCount: apostilas.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemCount: _itens.length,
         itemBuilder: (context, index) {
-          final item = apostilas[index];
-          return _ApostilaCard(item: item);
+          if (index == 1) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Text(
+                    'SEQUÊNCIAS',
+                    style: TextStyle(
+                      color: Colors.amber,
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ),
+                _ApostilaCard(item: _itens[index]),
+                const SizedBox(height: 12),
+              ],
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _ApostilaCard(item: _itens[index]),
+          );
         },
       ),
     );
@@ -56,25 +151,13 @@ class ApostilasScreen extends StatelessWidget {
 }
 
 class _ApostilaCard extends StatelessWidget {
-  final ApostilaItem item;
-
+  final _ApostilaItem item;
   const _ApostilaCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => ApostilaScreen(
-              title: item.title,
-              assetPath: item.assetPath,
-              pdfAssetPath: item.pdfAssetPath,
-            ),
-          ),
-        );
-      },
+      onTap: () => item.abrir(context),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -97,7 +180,7 @@ class _ApostilaCard extends StatelessWidget {
                 color: Colors.amber.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Icon(item.icon, color: Colors.amber, size: 28),
+              child: Icon(item.icone, color: Colors.amber, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -105,7 +188,7 @@ class _ApostilaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.title,
+                    item.titulo,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -114,11 +197,8 @@ class _ApostilaCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    item.subtitle,
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 13,
-                    ),
+                    item.subtitulo,
+                    style: const TextStyle(color: Colors.white54, fontSize: 13),
                   ),
                 ],
               ),
