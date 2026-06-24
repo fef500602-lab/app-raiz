@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Video {
   final String id;
@@ -11,6 +11,9 @@ class Video {
     required this.title,
     required this.subtitle,
   });
+
+  String get youtubeUrl => 'https://www.youtube.com/watch?v=$id';
+  String get thumbnailUrl => 'https://img.youtube.com/vi/$id/mqdefault.jpg';
 }
 
 const List<Video> videos = [
@@ -46,8 +49,7 @@ class VideosScreen extends StatelessWidget {
         itemCount: videos.length,
         separatorBuilder: (_, __) => const SizedBox(height: 16),
         itemBuilder: (context, index) {
-          final video = videos[index];
-          return _VideoCard(video: video);
+          return _VideoCard(video: videos[index]);
         },
       ),
     );
@@ -56,22 +58,25 @@ class VideosScreen extends StatelessWidget {
 
 class _VideoCard extends StatelessWidget {
   final Video video;
-
   const _VideoCard({required this.video});
+
+  Future<void> _openYoutube(BuildContext context) async {
+    final uri = Uri.parse(video.youtubeUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Não foi possível abrir o vídeo.')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final thumbnailUrl = YoutubePlayer.getThumbnail(videoId: video.id);
-
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => VideoPlayerScreen(video: video),
-          ),
-        );
-      },
+      onTap: () => _openYoutube(context),
       child: Container(
         decoration: BoxDecoration(
           color: const Color(0xFF1E1E1E),
@@ -88,14 +93,13 @@ class _VideoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Miniatura com overlay de play
             AspectRatio(
               aspectRatio: 16 / 9,
               child: Stack(
                 fit: StackFit.expand,
                 children: [
                   Image.network(
-                    thumbnailUrl,
+                    video.thumbnailUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
                       color: const Color(0xFF2C2C2C),
@@ -103,9 +107,7 @@ class _VideoCard extends StatelessWidget {
                           color: Colors.white38, size: 48),
                     ),
                   ),
-                  Container(
-                    color: Colors.black.withOpacity(0.25),
-                  ),
+                  Container(color: Colors.black.withOpacity(0.2)),
                   Center(
                     child: Container(
                       width: 56,
@@ -114,130 +116,56 @@ class _VideoCard extends StatelessWidget {
                         color: Colors.white.withOpacity(0.9),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
-                        Icons.play_arrow_rounded,
-                        color: Color(0xFF1E1E1E),
-                        size: 36,
+                      child: const Icon(Icons.play_arrow_rounded,
+                          color: Color(0xFF1E1E1E), size: 36),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 8,
+                    right: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.7),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.open_in_new,
+                              color: Colors.white70, size: 12),
+                          SizedBox(width: 4),
+                          Text('YouTube',
+                              style: TextStyle(
+                                  color: Colors.white70, fontSize: 11)),
+                        ],
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-            // Informações do vídeo
             Padding(
               padding: const EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    video.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                  Text(video.title,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
                   const SizedBox(height: 4),
-                  Text(
-                    video.subtitle,
-                    style: const TextStyle(
-                      color: Colors.white54,
-                      fontSize: 13,
-                    ),
-                  ),
+                  Text(video.subtitle,
+                      style: const TextStyle(
+                          color: Colors.white54, fontSize: 13)),
                 ],
               ),
             ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class VideoPlayerScreen extends StatefulWidget {
-  final Video video;
-
-  const VideoPlayerScreen({super.key, required this.video});
-
-  @override
-  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
-}
-
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: widget.video.id,
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-        enableCaption: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: _controller,
-        showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-      ),
-      builder: (context, player) {
-        return Scaffold(
-          backgroundColor: const Color(0xFF121212),
-          appBar: AppBar(
-            backgroundColor: const Color(0xFF1E1E1E),
-            title: Text(
-              widget.video.title,
-              style: const TextStyle(color: Colors.white, fontSize: 16),
-            ),
-            iconTheme: const IconThemeData(color: Colors.white),
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              player,
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.video.title,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      widget.video.subtitle,
-                      style: const TextStyle(
-                        color: Colors.white54,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }
