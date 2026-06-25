@@ -6,17 +6,14 @@ class Video {
   final String title;
   final String subtitle;
 
-  const Video({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-  });
+  const Video({required this.id, required this.title, required this.subtitle});
 
   String get youtubeUrl => 'https://www.youtube.com/watch?v=$id';
   String get thumbnailUrl => 'https://img.youtube.com/vi/$id/mqdefault.jpg';
 }
 
-const List<Video> videos = [
+// ── Vídeos: Técnicas ──────────────────────────────────────────────────────────
+const List<Video> videosTecnicas = [
   Video(
     id: 'lrTkynvAJnE',
     title: 'Sequências de Bimba',
@@ -29,8 +26,35 @@ const List<Video> videos = [
   ),
 ];
 
+// ── Vídeos: História ──────────────────────────────────────────────────────────
+const List<Video> videosHistoria = [
+  Video(
+    id: '-unP_tdBiKI',
+    title: 'PASTINHA! Uma Vida pela Capoeira',
+    subtitle: 'Documentário sobre Mestre Pastinha',
+  ),
+  Video(
+    id: 'YZdZz6dkpmw',
+    title: 'Mestre Bimba | Capoeira Iluminada',
+    subtitle: 'Documentário sobre Mestre Bimba',
+  ),
+  Video(
+    id: 'ATnyW_28Q9A',
+    title: 'A História de Besouro',
+    subtitle: 'Da Capoeira ao Samba',
+  ),
+];
+
+// ── Tela genérica de vídeos ───────────────────────────────────────────────────
 class VideosScreen extends StatelessWidget {
-  const VideosScreen({super.key});
+  final String titulo;
+  final List<Video> videos;
+
+  const VideosScreen({
+    super.key,
+    required this.titulo,
+    required this.videos,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +62,9 @@ class VideosScreen extends StatelessWidget {
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1E1E1E),
-        title: const Text(
-          'Vídeos',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(
+          titulo,
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -48,14 +72,13 @@ class VideosScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: videos.length,
         separatorBuilder: (_, __) => const SizedBox(height: 16),
-        itemBuilder: (context, index) {
-          return _VideoCard(video: videos[index]);
-        },
+        itemBuilder: (context, index) => _VideoCard(video: videos[index]),
       ),
     );
   }
 }
 
+// ── Card de vídeo ─────────────────────────────────────────────────────────────
 class _VideoCard extends StatelessWidget {
   final Video video;
   const _VideoCard({required this.video});
@@ -133,12 +156,10 @@ class _VideoCard extends StatelessWidget {
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.open_in_new,
-                              color: Colors.white70, size: 12),
+                          Icon(Icons.open_in_new, color: Colors.white70, size: 12),
                           SizedBox(width: 4),
                           Text('YouTube',
-                              style: TextStyle(
-                                  color: Colors.white70, fontSize: 11)),
+                              style: TextStyle(color: Colors.white70, fontSize: 11)),
                         ],
                       ),
                     ),

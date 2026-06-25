@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'App Capoeira',
+      title: 'Raiz dos Palmares',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF1E1E1E),
         title: const Text(
-          'App Capoeira',
+          'Raiz dos Palmares',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -50,12 +50,31 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         children: [
           _MenuCard(
+            icon: Icons.history_edu_outlined,
+            title: 'História da Capoeira',
+            subtitle: 'Documentários e grandes nomes',
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const VideosScreen(
+                  titulo: 'História da Capoeira',
+                  videos: videosHistoria,
+                ),
+              ),
+            ),
+          ),
+          _MenuCard(
             icon: Icons.play_circle_outline,
             title: 'Vídeos',
             subtitle: 'Técnicas e movimentos',
             onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const VideosScreen()),
+              MaterialPageRoute(
+                builder: (_) => const VideosScreen(
+                  titulo: 'Vídeos',
+                  videos: videosTecnicas,
+                ),
+              ),
             ),
           ),
           _MenuCard(
@@ -102,19 +121,21 @@ class _MenuCard extends StatelessWidget {
           children: [
             Icon(icon, color: Colors.amber, size: 36),
             const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-                Text(subtitle,
-                    style: const TextStyle(color: Colors.white54, fontSize: 13)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
+                  Text(subtitle,
+                      style: const TextStyle(
+                          color: Colors.white54, fontSize: 13)),
+                ],
+              ),
             ),
-            const Spacer(),
             const Icon(Icons.chevron_right, color: Colors.white38),
           ],
         ),
