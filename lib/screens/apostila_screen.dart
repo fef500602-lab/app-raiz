@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -83,6 +84,7 @@ class _ApostilaScreenState extends State<ApostilaScreen> {
   }
 
   void _mostrarMenuPdf(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final temFormatada = widget.pdfAssetPath != null;
     final temOriginal = widget.pdfOriginalAssetPath != null;
 
@@ -95,9 +97,9 @@ class _ApostilaScreenState extends State<ApostilaScreen> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF1E1E1E),
+      backgroundColor: cs.surface,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -107,17 +109,21 @@ class _ApostilaScreenState extends State<ApostilaScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Escolha a versão do PDF',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
+                  style: GoogleFonts.bricolageGrotesque(
+                    color: cs.onSurface,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
+                Text(
                   'Disponível para compartilhar ou salvar',
-                  style: TextStyle(color: Colors.white54, fontSize: 13),
+                  style: GoogleFonts.plusJakartaSans(
+                    color: cs.onSurfaceVariant,
+                    fontSize: 13,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 if (temFormatada)
@@ -158,80 +164,114 @@ class _ApostilaScreenState extends State<ApostilaScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final temPdf =
         widget.pdfAssetPath != null || widget.pdfOriginalAssetPath != null;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
-        title: Text(widget.title,
-            style: const TextStyle(color: Colors.white, fontSize: 16)),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: cs.surface,
+        title: Text(
+          widget.title,
+          style: GoogleFonts.bricolageGrotesque(
+            color: cs.onSurface,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        iconTheme: IconThemeData(color: cs.onSurface),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: cs.outlineVariant),
+        ),
         actions: _buildActions(context, temPdf),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator(color: Colors.amber))
+          ? Center(
+              child: CircularProgressIndicator(color: cs.primary),
+            )
           : Markdown(
               data: _content ?? '',
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               styleSheet: MarkdownStyleSheet(
-                p: const TextStyle(
-                    color: Color(0xFFE0E0E0), fontSize: 16, height: 1.7),
-                h1: const TextStyle(
-                    color: Colors.amber,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    height: 2.0),
-                h2: const TextStyle(
-                    color: Colors.amber,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    height: 2.0),
-                h3: const TextStyle(
-                    color: Color(0xFFFFCC80),
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    height: 1.8),
-                strong: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-                em: const TextStyle(
-                    color: Color(0xFFBDBDBD), fontStyle: FontStyle.italic),
-                blockquote: const TextStyle(
-                    color: Color(0xFFBDBDBD),
-                    fontSize: 15,
-                    fontStyle: FontStyle.italic,
-                    height: 1.6),
+                p: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF1C1C18),
+                  fontSize: 16,
+                  height: 1.7,
+                ),
+                h1: GoogleFonts.bricolageGrotesque(
+                  color: const Color(0xFF9F3C16),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  height: 2.0,
+                ),
+                h2: GoogleFonts.bricolageGrotesque(
+                  color: const Color(0xFF9F3C16),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  height: 2.0,
+                ),
+                h3: GoogleFonts.bricolageGrotesque(
+                  color: const Color(0xFFBF542C),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                  height: 1.8,
+                ),
+                strong: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF1C1C18),
+                  fontWeight: FontWeight.bold,
+                ),
+                em: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF57423B),
+                  fontStyle: FontStyle.italic,
+                ),
+                blockquote: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF57423B),
+                  fontSize: 15,
+                  fontStyle: FontStyle.italic,
+                  height: 1.6,
+                ),
                 blockquoteDecoration: const BoxDecoration(
                   border: Border(
-                      left: BorderSide(color: Colors.amber, width: 4)),
-                  color: Color(0xFF1E1E1E),
+                    left: BorderSide(color: Color(0xFF9F3C16), width: 4),
+                  ),
+                  color: Color(0xFFF1EDE7),
                 ),
-                blockquotePadding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 8),
-                listBullet:
-                    const TextStyle(color: Colors.amber, fontSize: 16),
+                blockquotePadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                listBullet: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF9F3C16),
+                  fontSize: 16,
+                ),
                 code: const TextStyle(
-                    color: Color(0xFFE0E0E0),
-                    fontSize: 13,
-                    fontFamily: 'monospace'),
+                  color: Color(0xFF57423B),
+                  fontSize: 13,
+                  fontFamily: 'monospace',
+                ),
                 codeblockDecoration: BoxDecoration(
-                    color: const Color(0xFF2C2C2C),
-                    borderRadius: BorderRadius.circular(8)),
+                  color: const Color(0xFFEBE8E2),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 codeblockPadding: const EdgeInsets.all(16),
                 horizontalRuleDecoration: const BoxDecoration(
                   border: Border(
-                      top: BorderSide(color: Color(0xFF333333), width: 1)),
+                    top: BorderSide(color: Color(0xFFDEC0B7), width: 1),
+                  ),
                 ),
-                tableHead: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14),
-                tableBody: const TextStyle(
-                    color: Color(0xFFE0E0E0), fontSize: 14),
+                tableHead: GoogleFonts.bricolageGrotesque(
+                  color: const Color(0xFF1C1C18),
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+                tableBody: GoogleFonts.plusJakartaSans(
+                  color: const Color(0xFF57423B),
+                  fontSize: 14,
+                ),
                 tableBorder: TableBorder.all(
-                    color: const Color(0xFF333333), width: 1),
+                  color: const Color(0xFFDEC0B7),
+                  width: 1,
+                ),
                 tableHeadAlign: TextAlign.left,
               ),
             ),
@@ -239,28 +279,28 @@ class _ApostilaScreenState extends State<ApostilaScreen> {
   }
 
   List<Widget> _buildActions(BuildContext context, bool temPdf) {
+    final cs = Theme.of(context).colorScheme;
     if (!temPdf) return [];
     if (_sharing) {
       return [
-        const Padding(
-          padding: EdgeInsets.all(14),
+        Padding(
+          padding: const EdgeInsets.all(14),
           child: SizedBox(
             width: 20,
             height: 20,
-            child: CircularProgressIndicator(
-                color: Colors.amber, strokeWidth: 2),
+            child: CircularProgressIndicator(color: cs.primary, strokeWidth: 2),
           ),
         ),
       ];
     }
     return [
       IconButton(
-        icon: const Icon(Icons.share_outlined, color: Colors.amber),
+        icon: Icon(Icons.share_outlined, color: cs.primary),
         tooltip: 'Compartilhar / Baixar PDF',
         onPressed: () => _mostrarMenuPdf(context),
       ),
       IconButton(
-        icon: const Icon(Icons.download_outlined, color: Colors.amber),
+        icon: Icon(Icons.download_outlined, color: cs.primary),
         tooltip: 'Baixar PDF',
         onPressed: () => _mostrarMenuPdf(context),
       ),
@@ -284,14 +324,15 @@ class _PdfOpcao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: const Color(0xFF2A2A2A),
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.amber.withOpacity(0.2)),
+          color: const Color(0xFFF1EDE7),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFDEC0B7), width: 0.5),
         ),
         child: Row(
           children: [
@@ -299,29 +340,36 @@ class _PdfOpcao extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.12),
+                color: cs.primary.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: Colors.amber, size: 24),
+              child: Icon(icon, color: cs.primary, size: 24),
             ),
             const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(titulo,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold)),
+                  Text(
+                    titulo,
+                    style: GoogleFonts.bricolageGrotesque(
+                      color: cs.onSurface,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(subtitulo,
-                      style: const TextStyle(
-                          color: Colors.white54, fontSize: 12)),
+                  Text(
+                    subtitulo,
+                    style: GoogleFonts.plusJakartaSans(
+                      color: cs.onSurfaceVariant,
+                      fontSize: 12,
+                    ),
+                  ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white38),
+            Icon(Icons.chevron_right, color: cs.outline, size: 20),
           ],
         ),
       ),

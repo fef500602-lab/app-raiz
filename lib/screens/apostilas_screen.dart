@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'apostila_screen.dart';
 import 'videos_tab_screen.dart' show buildLogoTitle;
 
@@ -7,12 +8,20 @@ class ApostilasScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: cs.surface,
         automaticallyImplyLeading: false,
         title: buildLogoTitle('Apostila'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(
+            height: 1,
+            color: cs.outlineVariant,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -51,33 +60,39 @@ class _ApostilaCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E1E1E),
-          borderRadius: BorderRadius.circular(12),
+          color: const Color(0xFFF1EDE7), // surface-container
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFDEC0B7), // outline-variant
+            width: 0.5,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 6,
-              offset: const Offset(0, 3),
+              color: const Color(0xFF9F3C16).withOpacity(0.06),
+              blurRadius: 16,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Row(
           children: [
+            // Ícone livro
             Container(
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(10),
+                color: cs.primary.withOpacity(0.12),
+                borderRadius: BorderRadius.circular(12),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.auto_stories_outlined,
-                color: Colors.amber,
+                color: cs.primary,
                 size: 28,
               ),
             ),
@@ -88,22 +103,24 @@ class _ApostilaCard extends StatelessWidget {
                 children: [
                   Text(
                     titulo,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: GoogleFonts.bricolageGrotesque(
+                      color: cs.onSurface,
                       fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitulo,
-                    style:
-                        const TextStyle(color: Colors.white54, fontSize: 13),
+                    style: GoogleFonts.plusJakartaSans(
+                      color: cs.onSurfaceVariant,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white38),
+            Icon(Icons.chevron_right, color: cs.outline, size: 20),
           ],
         ),
       ),

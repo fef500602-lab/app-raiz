@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 import '../models/sequencia_model.dart';
+
+// Cores funcionais A/B (terracota Stitch + verde Stitch)
+const _corA = Color(0xFFBF542C); // primary-container
+const _corB = Color(0xFF3B6752); // secondary
 
 class SequenciaListScreen extends StatelessWidget {
   final CategoriaSequencias categoria;
@@ -32,19 +37,28 @@ class SequenciaListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
+      backgroundColor: cs.surface,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF1E1E1E),
+        backgroundColor: cs.surface,
         title: Text(
           categoria.nome,
-          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: GoogleFonts.bricolageGrotesque(
+            color: cs.onSurface,
+            fontWeight: FontWeight.w700,
+            fontSize: 18,
+          ),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: cs.onSurface),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(1),
+          child: Container(height: 1, color: cs.outlineVariant),
+        ),
         actions: [
           if (categoria.pdfAssetPath != null)
             IconButton(
-              icon: const Icon(Icons.share_outlined, color: Colors.amber),
+              icon: Icon(Icons.share_outlined, color: cs.primary),
               tooltip: 'Compartilhar PDF',
               onPressed: () => _sharePdf(context),
             ),
@@ -66,6 +80,7 @@ class _DrillView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
       children: [
@@ -73,13 +88,17 @@ class _DrillView extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           margin: const EdgeInsets.only(bottom: 20),
           decoration: BoxDecoration(
-            color: Colors.amber.withOpacity(0.08),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: Colors.amber.withOpacity(0.2)),
+            color: cs.primary.withOpacity(0.07),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: cs.primary.withOpacity(0.2)),
           ),
-          child: const Text(
+          child: Text(
             'Execute cada movimento no ritmo da ginga, alternando os lados conforme indicado.',
-            style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+            style: GoogleFonts.plusJakartaSans(
+              color: cs.onSurfaceVariant,
+              fontSize: 13,
+              height: 1.5,
+            ),
           ),
         ),
         for (final grupo in drills) ...[
@@ -97,12 +116,18 @@ class _GrupoDrillCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
+        color: const Color(0xFFF1EDE7),
         borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: const Color(0xFFDEC0B7), width: 0.5),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 6, offset: const Offset(0, 3)),
+          BoxShadow(
+            color: const Color(0xFF9F3C16).withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
+          ),
         ],
       ),
       child: Column(
@@ -112,15 +137,15 @@ class _GrupoDrillCard extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(16, 14, 16, 12),
             decoration: BoxDecoration(
-              color: Colors.amber.withOpacity(0.12),
+              color: cs.primary.withOpacity(0.1),
               borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
             ),
             child: Text(
               grupo.titulo.toUpperCase(),
-              style: const TextStyle(
-                color: Colors.amber,
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
+              style: GoogleFonts.plusJakartaSans(
+                color: cs.primary,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
                 letterSpacing: 1.5,
               ),
             ),
@@ -138,16 +163,16 @@ class _GrupoDrillCard extends StatelessWidget {
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: Colors.amber.withOpacity(0.15),
+                          color: cs.primary.withOpacity(0.12),
                           shape: BoxShape.circle,
                         ),
                         alignment: Alignment.center,
                         child: Text(
                           '${i + 1}',
-                          style: const TextStyle(
-                            color: Colors.amber,
+                          style: GoogleFonts.plusJakartaSans(
+                            color: cs.primary,
                             fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -155,29 +180,37 @@ class _GrupoDrillCard extends StatelessWidget {
                       Expanded(
                         child: Text(
                           mov.nome,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: GoogleFonts.plusJakartaSans(
+                            color: cs.onSurface,
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF2C2C2C),
+                          color: const Color(0xFFEBE8E2),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
                           mov.repeticoes,
-                          style: const TextStyle(color: Colors.white60, fontSize: 12),
+                          style: GoogleFonts.plusJakartaSans(
+                            color: cs.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
                 if (!isLast)
-                  const Divider(height: 1, color: Color(0xFF2C2C2C), indent: 56),
+                  Divider(
+                    height: 1,
+                    color: const Color(0xFFDEC0B7),
+                    indent: 56,
+                  ),
               ],
             );
           }),
@@ -197,6 +230,7 @@ class _SequenciasView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Column(
       children: [
         // Legenda
@@ -204,20 +238,26 @@ class _SequenciasView extends StatelessWidget {
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1E1E),
-            borderRadius: BorderRadius.circular(10),
+            color: const Color(0xFFF1EDE7),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFFDEC0B7), width: 0.5),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _LegendaBadge(cor: const Color(0xFFFFB300), letra: 'A', label: 'Aluno A'),
+              _LegendaBadge(cor: _corA, letra: 'A', label: 'Aluno A'),
               const SizedBox(width: 24),
-              _LegendaBadge(cor: const Color(0xFF29B6F6), letra: 'B', label: 'Aluno B'),
+              _LegendaBadge(cor: _corB, letra: 'B', label: 'Aluno B'),
               const SizedBox(width: 24),
               Row(children: [
-                const Icon(Icons.arrow_forward, color: Colors.white38, size: 16),
+                Icon(Icons.arrow_forward,
+                    color: cs.onSurface.withOpacity(0.3), size: 16),
                 const SizedBox(width: 4),
-                const Text('ataca', style: TextStyle(color: Colors.white38, fontSize: 12)),
+                Text('ataca',
+                    style: GoogleFonts.plusJakartaSans(
+                      color: cs.onSurfaceVariant,
+                      fontSize: 12,
+                    )),
               ]),
             ],
           ),
@@ -228,7 +268,8 @@ class _SequenciasView extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
             itemCount: sequencias.length,
             separatorBuilder: (_, __) => const SizedBox(height: 16),
-            itemBuilder: (context, index) => _SequenciaCard(sequencia: sequencias[index]),
+            itemBuilder: (context, index) =>
+                _SequenciaCard(sequencia: sequencias[index]),
           ),
         ),
       ],
@@ -240,7 +281,8 @@ class _LegendaBadge extends StatelessWidget {
   final Color cor;
   final String letra;
   final String label;
-  const _LegendaBadge({required this.cor, required this.letra, required this.label});
+  const _LegendaBadge(
+      {required this.cor, required this.letra, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -252,10 +294,17 @@ class _LegendaBadge extends StatelessWidget {
           decoration: BoxDecoration(color: cor, shape: BoxShape.circle),
           alignment: Alignment.center,
           child: Text(letra,
-              style: const TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold)),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold)),
         ),
         const SizedBox(width: 6),
-        Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        Text(label,
+            style: GoogleFonts.plusJakartaSans(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              fontSize: 12,
+            )),
       ],
     );
   }
@@ -275,20 +324,27 @@ class _SequenciaCardState extends State<_SequenciaCard> {
   @override
   Widget build(BuildContext context) {
     final seq = widget.sequencia;
+    final cs = Theme.of(context).colorScheme;
 
     return GestureDetector(
       onTap: () => setState(() => _expandido = !_expandido),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         decoration: BoxDecoration(
-          color: const Color(0xFF1E1E1E),
+          color: const Color(0xFFF1EDE7),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: _expandido ? Colors.amber.withOpacity(0.5) : Colors.transparent,
-            width: 1.5,
+            color: _expandido
+                ? cs.primary.withOpacity(0.5)
+                : const Color(0xFFDEC0B7),
+            width: _expandido ? 1.5 : 0.5,
           ),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 6, offset: const Offset(0, 3)),
+            BoxShadow(
+              color: const Color(0xFF9F3C16).withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+            ),
           ],
         ),
         child: Column(
@@ -303,24 +359,36 @@ class _SequenciaCardState extends State<_SequenciaCard> {
                     width: 32,
                     height: 32,
                     decoration: BoxDecoration(
-                      color: Colors.amber.withOpacity(0.15),
+                      color: cs.primary.withOpacity(0.12),
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
                     child: Text('${seq.numero}',
-                        style: const TextStyle(
-                            color: Colors.amber, fontWeight: FontWeight.bold, fontSize: 14)),
+                        style: GoogleFonts.bricolageGrotesque(
+                          color: cs.primary,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 14,
+                        )),
                   ),
                   const SizedBox(width: 10),
                   Text('${seq.numero}ª Sequência',
-                      style: const TextStyle(
-                          color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
+                      style: GoogleFonts.bricolageGrotesque(
+                        color: cs.onSurface,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                      )),
                   const Spacer(),
                   Text('${seq.movimentos.length} mov.',
-                      style: const TextStyle(color: Colors.white38, fontSize: 12)),
+                      style: GoogleFonts.plusJakartaSans(
+                        color: cs.onSurfaceVariant,
+                        fontSize: 12,
+                      )),
                   const SizedBox(width: 8),
-                  Icon(_expandido ? Icons.expand_less : Icons.expand_more,
-                      color: Colors.white38, size: 20),
+                  Icon(
+                    _expandido ? Icons.expand_less : Icons.expand_more,
+                    color: cs.onSurfaceVariant,
+                    size: 20,
+                  ),
                 ],
               ),
             ),
@@ -335,12 +403,14 @@ class _SequenciaCardState extends State<_SequenciaCard> {
                   children: seq.movimentos.map((m) {
                     if (m.ehFinalizacao) {
                       final nome = m.nomeA.isNotEmpty ? m.nomeA : m.nomeB;
-                      return _GolpeChip(nome: nome, corBorda: Colors.white38);
+                      return _GolpeChip(
+                          nome: nome,
+                          corBorda: cs.onSurfaceVariant.withOpacity(0.5));
                     }
                     final atacaA = m.atacante == Atacante.a;
                     return _GolpeChip(
                       nome: atacaA ? m.nomeA : m.nomeB,
-                      corBorda: atacaA ? const Color(0xFFFFB300) : const Color(0xFF29B6F6),
+                      corBorda: atacaA ? _corA : _corB,
                     );
                   }).toList(),
                 ),
@@ -348,7 +418,7 @@ class _SequenciaCardState extends State<_SequenciaCard> {
 
             // Expandido
             if (_expandido) ...[
-              const Divider(color: Color(0xFF2C2C2C), height: 1),
+              Divider(color: const Color(0xFFDEC0B7), height: 1),
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
                 child: Column(
@@ -361,17 +431,24 @@ class _SequenciaCardState extends State<_SequenciaCard> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 4, 16, 14),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: Colors.amber.withOpacity(0.08),
+                      color: cs.primary.withOpacity(0.07),
                       borderRadius: BorderRadius.circular(8),
                       border: Border(
-                        left: BorderSide(color: Colors.amber.withOpacity(0.5), width: 3),
+                        left: BorderSide(
+                            color: cs.primary.withOpacity(0.5), width: 3),
                       ),
                     ),
-                    child: Text(seq.observacao!,
-                        style: const TextStyle(
-                            color: Colors.white60, fontSize: 12.5, fontStyle: FontStyle.italic)),
+                    child: Text(
+                      seq.observacao!,
+                      style: GoogleFonts.plusJakartaSans(
+                        color: cs.onSurfaceVariant,
+                        fontSize: 12.5,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
                   ),
                 )
               else
@@ -390,14 +467,11 @@ class _MovimentoRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const corA = Color(0xFFFFB300);
-    const corB = Color(0xFF29B6F6);
-
     // Movimento de finalização (só um lado)
     if (mov.ehFinalizacao) {
       final isA = mov.nomeA.isNotEmpty;
       final nome = isA ? mov.nomeA : mov.nomeB;
-      final cor = isA ? corA : corB;
+      final cor = isA ? _corA : _corB;
       final letra = isA ? 'A' : 'B';
       return Padding(
         padding: const EdgeInsets.only(bottom: 8),
@@ -405,29 +479,37 @@ class _MovimentoRow extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 decoration: BoxDecoration(
-                  color: cor.withOpacity(0.12),
+                  color: cor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: cor.withOpacity(0.4)),
+                  border: Border.all(color: cor.withOpacity(0.35)),
                 ),
                 child: Row(
                   children: [
                     Container(
-                      width: 20, height: 20,
-                      decoration: BoxDecoration(color: cor, shape: BoxShape.circle),
+                      width: 20,
+                      height: 20,
+                      decoration:
+                          BoxDecoration(color: cor, shape: BoxShape.circle),
                       alignment: Alignment.center,
                       child: Text(letra,
                           style: const TextStyle(
-                              color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold)),
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold)),
                     ),
                     const SizedBox(width: 8),
-                    const Icon(Icons.sports_martial_arts, color: Colors.amber, size: 14),
+                    Icon(Icons.sports_martial_arts, color: cor, size: 14),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(nome,
-                          style: TextStyle(
-                              color: cor, fontSize: 12.5, fontWeight: FontWeight.bold)),
+                          style: GoogleFonts.plusJakartaSans(
+                            color: cor,
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.bold,
+                          )),
                     ),
                   ],
                 ),
@@ -448,22 +530,24 @@ class _MovimentoRow extends StatelessWidget {
             flex: 4,
             child: _GolpeBox(
               nome: mov.nomeA,
-              cor: corA,
+              cor: _corA,
               destaque: atacaA,
               alinhaDireita: true,
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 6),
-            child: atacaA
-                ? const Icon(Icons.arrow_forward, color: Color(0xFFFFB300), size: 18)
-                : const Icon(Icons.arrow_back, color: Color(0xFF29B6F6), size: 18),
+            child: Icon(
+              atacaA ? Icons.arrow_forward : Icons.arrow_back,
+              color: atacaA ? _corA : _corB,
+              size: 18,
+            ),
           ),
           Expanded(
             flex: 4,
             child: _GolpeBox(
               nome: mov.nomeB,
-              cor: corB,
+              cor: _corB,
               destaque: !atacaA,
               alinhaDireita: false,
             ),
@@ -492,17 +576,19 @@ class _GolpeBox extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
-        color: destaque ? cor.withOpacity(0.15) : const Color(0xFF2A2A2A),
+        color: destaque ? cor.withOpacity(0.12) : const Color(0xFFEBE8E2),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: destaque ? cor.withOpacity(0.5) : Colors.transparent,
+          color: destaque ? cor.withOpacity(0.45) : Colors.transparent,
         ),
       ),
       child: Text(
         nome,
         textAlign: alinhaDireita ? TextAlign.right : TextAlign.left,
-        style: TextStyle(
-          color: destaque ? cor : Colors.white60,
+        style: GoogleFonts.plusJakartaSans(
+          color: destaque
+              ? cor
+              : Theme.of(context).colorScheme.onSurfaceVariant,
           fontSize: 12.5,
           fontWeight: destaque ? FontWeight.bold : FontWeight.normal,
         ),
@@ -521,11 +607,12 @@ class _GolpeChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: corBorda.withOpacity(0.1),
+        color: corBorda.withOpacity(0.08),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: corBorda.withOpacity(0.4)),
+        border: Border.all(color: corBorda.withOpacity(0.35)),
       ),
-      child: Text(nome, style: TextStyle(color: corBorda, fontSize: 11)),
+      child: Text(nome,
+          style: GoogleFonts.plusJakartaSans(color: corBorda, fontSize: 11)),
     );
   }
 }

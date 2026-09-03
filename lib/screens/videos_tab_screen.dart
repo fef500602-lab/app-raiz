@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'videos_screen.dart' show Video, videosHistoria; // modelo + dados História
+import 'package:google_fonts/google_fonts.dart';
+import 'videos_screen.dart' show Video, videosHistoria;
 
-// ── Novos vídeos de Técnicas (YouTube Shorts do grupo) ────────────────────────
+// ── Vídeos de Técnicas (YouTube Shorts do grupo) ──────────────────────────────
 const List<Video> videosTecnicas = [
   Video(
     id: 'tYYLh8Kqwbs',
@@ -27,30 +27,34 @@ const List<Video> videosTecnicas = [
   ),
 ];
 
-// ── Logo + título reutilizável ─────────────────────────────────────────────────
+// ── Logo + título reutilizável (tema claro Stitch) ────────────────────────────
 Widget buildLogoTitle(String title) {
   return Row(
     children: [
       ClipRRect(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(6),
         child: Image.asset(
           'assets/logo_raiz_palmares.jpg',
           height: 32,
           width: 32,
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => const SizedBox(
+          errorBuilder: (_, __, ___) => Container(
             width: 32,
             height: 32,
-            child: Icon(Icons.star, color: Colors.amber, size: 24),
+            decoration: BoxDecoration(
+              color: const Color(0xFF9F3C16),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: const Icon(Icons.star, color: Colors.white, size: 20),
           ),
         ),
       ),
       const SizedBox(width: 10),
       Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+        style: GoogleFonts.bricolageGrotesque(
+          color: const Color(0xFF1C1C18),
+          fontWeight: FontWeight.w700,
           fontSize: 18,
         ),
       ),
@@ -58,36 +62,57 @@ Widget buildLogoTitle(String title) {
   );
 }
 
-// ── Tela principal de Vídeos (com abas História / Técnicas) ───────────────────
+// ── Tela de Vídeos (abas História / Técnicas) ─────────────────────────────────
 class VideosTabScreen extends StatelessWidget {
   const VideosTabScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xFF121212),
+        backgroundColor: cs.surface,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF1E1E1E),
+          backgroundColor: cs.surface,
           automaticallyImplyLeading: false,
           title: buildLogoTitle('Raiz dos Palmares'),
-          bottom: const TabBar(
-            labelColor: Colors.amber,
-            unselectedLabelColor: Colors.white54,
-            indicatorColor: Colors.amber,
-            tabs: [
-              Tab(text: 'História'),
-              Tab(text: 'Técnicas'),
-            ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: cs.outlineVariant, width: 1),
+                ),
+              ),
+              child: TabBar(
+                labelColor: cs.primary,
+                unselectedLabelColor: cs.onSurfaceVariant,
+                indicatorColor: cs.primary,
+                indicatorWeight: 2,
+                dividerColor: Colors.transparent,
+                labelStyle: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                unselectedLabelStyle: GoogleFonts.plusJakartaSans(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                ),
+                tabs: const [
+                  Tab(text: 'História'),
+                  Tab(text: 'Técnicas'),
+                ],
+              ),
+            ),
           ),
         ),
         body: TabBarView(
           children: [
             // Aba 1: documentários — abre YouTube externo
-            _VideoListView(videos: videosHistoria, embedded: false),
-            // Aba 2: Shorts do grupo — player embarcado
-            _VideoListView(videos: videosTecnicas, embedded: true),
+            _VideoListView(videos: videosHistoria, isShorts: false),
+            // Aba 2: Shorts do grupo — abre app YouTube com URL /shorts/
+            _VideoListView(videos: videosTecnicas, isShorts: true),
           ],
         ),
       ),
@@ -98,31 +123,34 @@ class VideosTabScreen extends StatelessWidget {
 // ── Lista de vídeos ───────────────────────────────────────────────────────────
 class _VideoListView extends StatelessWidget {
   final List<Video> videos;
-  final bool embedded;
+  final bool isShorts;
 
-  const _VideoListView({required this.videos, required this.embedded});
+  const _VideoListView({required this.videos, required this.isShorts});
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemCount: videos.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 16),
+      separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) =>
-          _VideoCard(video: videos[index], embedded: embedded),
+          _VideoCard(video: videos[index], isShorts: isShorts),
     );
   }
 }
 
-// ── Card de vídeo ─────────────────────────────────────────────────────────────
+// ── Card de vídeo (tema claro Stitch) ─────────────────────────────────────────
 class _VideoCard extends StatelessWidget {
   final Video video;
-  final bool embedded;
+  final bool isShorts;
 
-  const _VideoCard({required this.video, required this.embedded});
+  const _VideoCard({required this.video, required this.isShorts});
 
-  Future<void> _openYoutube(BuildContext context) async {
-    final uri = Uri.parse(video.youtubeUrl);
+  Future<void> _openVideo(BuildContext context) async {
+    final url = isShorts
+        ? 'https://www.youtube.com/shorts/${video.id}'
+        : video.youtubeUrl;
+    final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else if (context.mounted) {
@@ -132,31 +160,23 @@ class _VideoCard extends StatelessWidget {
     }
   }
 
-  void _openEmbedded(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => VideoPlayerScreen(
-          videoId: video.id,
-          title: video.title,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return GestureDetector(
-      onTap: () =>
-          embedded ? _openEmbedded(context) : _openYoutube(context),
+      onTap: () => _openVideo(context),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1E1E1E),
-          borderRadius: BorderRadius.circular(12),
+          color: const Color(0xFFF1EDE7), // surface-container
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: const Color(0xFFDEC0B7), // outline-variant
+            width: 0.5,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.4),
-              blurRadius: 8,
+              color: const Color(0xFF9F3C16).withOpacity(0.06),
+              blurRadius: 16,
               offset: const Offset(0, 4),
             ),
           ],
@@ -165,6 +185,7 @@ class _VideoCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Thumbnail
             AspectRatio(
               aspectRatio: 16 / 9,
               child: Stack(
@@ -174,27 +195,45 @@ class _VideoCard extends StatelessWidget {
                     video.thumbnailUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
-                      color: const Color(0xFF2C2C2C),
-                      child: const Icon(Icons.video_library,
-                          color: Colors.white38, size: 48),
+                      color: const Color(0xFFEBE8E2),
+                      child: Icon(Icons.video_library,
+                          color: cs.outlineVariant, size: 48),
                     ),
                   ),
-                  Container(color: Colors.black.withOpacity(0.2)),
+                  // Gradiente sutil
+                  Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Color(0x33000000)],
+                      ),
+                    ),
+                  ),
+                  // Botão play terracota
                   Center(
                     child: Container(
-                      width: 56,
-                      height: 56,
+                      width: 52,
+                      height: 52,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: cs.primary,
                         shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: cs.primary.withOpacity(0.35),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
                       ),
                       child: const Icon(
                         Icons.play_arrow_rounded,
-                        color: Color(0xFF1E1E1E),
-                        size: 36,
+                        color: Colors.white,
+                        size: 32,
                       ),
                     ),
                   ),
+                  // Badge inferior
                   Positioned(
                     bottom: 8,
                     right: 8,
@@ -202,24 +241,27 @@ class _VideoCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
-                        borderRadius: BorderRadius.circular(4),
+                        color: Colors.white.withOpacity(0.9),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            embedded
+                            isShorts
                                 ? Icons.play_circle_outline
                                 : Icons.open_in_new,
-                            color: Colors.white70,
-                            size: 12,
+                            color: cs.primary,
+                            size: 11,
                           ),
-                          const SizedBox(width: 4),
+                          const SizedBox(width: 3),
                           Text(
-                            embedded ? 'Assistir' : 'YouTube',
-                            style: const TextStyle(
-                                color: Colors.white70, fontSize: 11),
+                            isShorts ? 'Shorts' : 'YouTube',
+                            style: GoogleFonts.plusJakartaSans(
+                              color: cs.onSurface,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
@@ -228,6 +270,7 @@ class _VideoCard extends StatelessWidget {
                 ],
               ),
             ),
+            // Texto
             Padding(
               padding: const EdgeInsets.all(14),
               child: Column(
@@ -235,17 +278,19 @@ class _VideoCard extends StatelessWidget {
                 children: [
                   Text(
                     video.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    style: GoogleFonts.bricolageGrotesque(
+                      color: cs.onSurface,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     video.subtitle,
-                    style:
-                        const TextStyle(color: Colors.white54, fontSize: 13),
+                    style: GoogleFonts.plusJakartaSans(
+                      color: cs.onSurfaceVariant,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
@@ -253,68 +298,6 @@ class _VideoCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-// ── Player embarcado (Shorts em 9:16) ─────────────────────────────────────────
-class VideoPlayerScreen extends StatefulWidget {
-  final String videoId;
-  final String title;
-
-  const VideoPlayerScreen({
-    super.key,
-    required this.videoId,
-    required this.title,
-  });
-
-  @override
-  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
-}
-
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late final YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController.fromVideoId(
-      videoId: widget.videoId,
-      autoPlay: true,
-      params: const YoutubePlayerParams(
-        showControls: true,
-        showFullscreenButton: true,
-        mute: false,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.close();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return YoutubePlayerScaffold(
-      controller: _controller,
-      aspectRatio: 9 / 16,
-      builder: (context, player) {
-        return Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: const Color(0xFF1E1E1E),
-            title: Text(
-              widget.title,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
-            ),
-            iconTheme: const IconThemeData(color: Colors.white),
-          ),
-          body: Center(child: player),
-        );
-      },
     );
   }
 }
