@@ -1,0 +1,134 @@
+Sequências de Bimba
+
+1a Sequência
+Aluno A		Aluno B
+Meia lua de frente	-->	Cocorinha
+Meia lua de frente	-->	Cocorinha
+Armada		--> Negativa
+Saída Aú pelas costas
+
+2a Sequência
+Aluno A		Aluno B
+Queixada	--> 	Cocorinha
+Queixada	--> 	Cocorinha
+Cocorinha	<--	Armada
+Benção		-->	Negativa
+Aú com rolê	<--	Cabeçada
+
+3a Sequência
+Aluno A		Aluno B
+Martelo		--> 	Cutila
+Martelo		--> 	Cutila
+Cocorinha	<--	Armada
+Benção		-->	Negativa
+Aú com rolê	<--	Cabeçada
+
+4a Sequência
+Aluno A		Aluno B
+Godeme		--> 	Palma
+Godeme		--> 	Palma
+Arrastão	<--	Galopante
+Aú com rolê	<--	Negativa
+		<--	Cabeçada
+
+5a Sequência
+Aluno A		Aluno B
+Giro		-->	Cabeçada
+Joelhada	-->	Negativa
+Aú com rolê	<--	Cabeçada
+
+6a Sequência
+Aluno A		Aluno B
+Meia lua de compasso		-->	Cocorinha
+Cocorinha			<--	Meia lua de compasso
+Joelhada			-->	Negativa
+Aú com rolê			--> 	Cabeçada
+
+7a Sequência
+Aluno A		Aluno B
+Armada			-->	Cocorinha
+Cocorinha		<--	Armada
+Benção			-->	Negativa
+Aú com rolê		<--	Cabeçada
+
+8a Sequência
+Aluno A		Aluno B
+Benção		-->	Negativa
+Aú com rolê	<--	Cabeçada
+
+
+Sequência do Grupo
+
+1a Sequência
+Aluno A		Aluno B
+Meia lua de frente	-->	Cocorinha
+Armada			-->	Vingativa
+Tesoura de costas
+
+2a Sequência
+Aluno A		Aluno B
+Martelo		-->	Rasteira em pé
+Armada		-->	Banda de costas
+
+3a Sequência
+Aluno A		Aluno B
+Queixada	--> 	Rasteira em pé
+Gancho		-->	Rasteira baiana
+Aú
+
+4a Sequência
+Aluno A		Aluno B
+Martelo		-->	Rasteira em pé
+Meia lua de compasso	-->	Negativa com tesoura
+Aú
+
+5a Sequência
+Aluno A		Aluno B
+Armada	-->	Rasteira baiana
+Salto giratório com joelhada	-->	Cavalete com rolê
+
+6a Sequência
+Aluno A		Aluno B
+Martelo voador		-->	Chapéu de couro
+Tesoura de frente
+
+7a Sequência
+Aluno A		Aluno B
+Martelo		-->	Chapa giratória
+Mola resistência
+
+8a Sequência
+Aluno A		Aluno B
+Meia lua de compasso	-->	Meia lua solta
+Cabeçada	--> 	Rolê
+
+9a Sequência
+Aluno A		Aluno B
+Armada		-->	Meia lua solta
+Tesoura de frente
+
+10a Sequência
+Aluno A		Aluno B
+Meia lua de frente	--> 	Cocorinha
+Tesoura de costas	--> 	(com meia lua de compasso)
+
+
+Sequências de Entrada e Saída
+
+Entrada
+Ginga (4x)
+Ponteira (2x cada perna)
+Martelo (2x cada perna)
+Benção (2x cada perna)
+Chapa (2x cada perna)
+Meia lua de frente (2x cada perna)
+Queixada sem esquiva (2x cada perna)
+Queixada com esquiva (2x cada perna)
+
+Saída
+Ginga (4x)
+Rasteira em pé (2x cada perna)
+Esquiva lateral (2x cada perna)
+Cocorinha (2x cada perna)
+Mola (2x cada perna)
+Negativa (2x cada perna)

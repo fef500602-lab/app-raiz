@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'apostila_screen.dart';
+import '../data/sequencias_data.dart';
+import 'sequencia_list_screen.dart';
 import 'videos_tab_screen.dart' show buildLogoTitle;
 
-class ApostilasScreen extends StatelessWidget {
-  const ApostilasScreen({super.key});
+class SequenciasTabScreen extends StatelessWidget {
+  const SequenciasTabScreen({super.key});
+
+  static const _icons = [
+    Icons.compare_arrows_rounded,   // Entrada e Saída
+    Icons.loop_rounded,             // Bimba
+    Icons.groups_outlined,          // Grupo
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,40 +19,41 @@ class ApostilasScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color(0xFF1E1E1E),
         automaticallyImplyLeading: false,
-        title: buildLogoTitle('Apostila'),
+        title: buildLogoTitle('Sequências'),
       ),
-      body: Padding(
+      body: ListView.separated(
         padding: const EdgeInsets.all(16),
-        child: _ApostilaCard(
-          titulo: 'Apostila Raiz dos Palmares',
-          subtitulo: 'História, golpes, graduação e muito mais',
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const ApostilaScreen(
-                title: 'Apostila Raiz dos Palmares',
-                assetPath: 'assets/apostilas/apostila_raiz_dos_palmares.md',
-                pdfAssetPath:
-                    'assets/apostilas/Apostila_Raiz_dos_Palmares_Fundo_Claro.pdf',
-                pdfOriginalAssetPath:
-                    'assets/apostilas/Apostila_Raiz_dos_Palmares.pdf',
+        itemCount: categoriasSequencias.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        itemBuilder: (context, index) {
+          final cat = categoriasSequencias[index];
+          return _SequenciaCard(
+            titulo: cat.nome,
+            subtitulo: cat.descricao,
+            icone: _icons[index],
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SequenciaListScreen(categoria: cat),
               ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 }
 
-class _ApostilaCard extends StatelessWidget {
+class _SequenciaCard extends StatelessWidget {
   final String titulo;
   final String subtitulo;
+  final IconData icone;
   final VoidCallback onTap;
 
-  const _ApostilaCard({
+  const _SequenciaCard({
     required this.titulo,
     required this.subtitulo,
+    required this.icone,
     required this.onTap,
   });
 
@@ -75,11 +83,7 @@ class _ApostilaCard extends StatelessWidget {
                 color: Colors.amber.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(
-                Icons.auto_stories_outlined,
-                color: Colors.amber,
-                size: 28,
-              ),
+              child: Icon(icone, color: Colors.amber, size: 28),
             ),
             const SizedBox(width: 16),
             Expanded(

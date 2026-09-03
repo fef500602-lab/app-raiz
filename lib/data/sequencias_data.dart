@@ -184,7 +184,6 @@ const List<Sequencia> sequenciasGrupo = [
       Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',              atacante: Atacante.a),
       Movimento(nomeA: 'Tesoura de costas',  nomeB: 'Meia lua de compasso',   atacante: Atacante.a),
     ],
-    observacao: 'B responde com Meia lua de compasso durante a Tesoura.',
   ),
 ];
 
