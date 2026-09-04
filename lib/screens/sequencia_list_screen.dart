@@ -203,17 +203,24 @@ class _SequenciasView extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: cs.outlineVariant, width: 0.5),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 8,
             children: [
               _LegendaBadge(cor: corAv, letra: 'A', label: 'Aluno A'),
-              const SizedBox(width: 24),
               _LegendaBadge(cor: corBv, letra: 'B', label: 'Aluno B'),
-              const SizedBox(width: 24),
-              Row(children: [
-                Icon(Icons.arrow_forward, color: cs.onSurface.withOpacity(0.3), size: 16),
-                const SizedBox(width: 4),
+              Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(Icons.arrow_forward, color: cs.onSurface.withOpacity(0.3), size: 15),
+                const SizedBox(width: 3),
                 Text('ataca',
+                    style: GoogleFonts.plusJakartaSans(color: cs.onSurfaceVariant, fontSize: 12)),
+              ]),
+              Row(mainAxisSize: MainAxisSize.min, children: [
+                Icon(Icons.arrow_forward, color: corAv.withOpacity(0.7), size: 14),
+                Icon(Icons.arrow_back,    color: corBv.withOpacity(0.7), size: 14),
+                const SizedBox(width: 3),
+                Text('simultâneo',
                     style: GoogleFonts.plusJakartaSans(color: cs.onSurfaceVariant, fontSize: 12)),
               ]),
             ],
@@ -332,6 +339,22 @@ class _SequenciaCardState extends State<_SequenciaCard> {
                       final nome = m.nomeA.isNotEmpty ? m.nomeA : m.nomeB;
                       return _GolpeChip(nome: nome, corBorda: cs.onSurfaceVariant.withOpacity(0.5));
                     }
+                    if (m.simultaneo) {
+                      return Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _GolpeChip(nome: m.nomeA, corBorda: corAv),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2),
+                            child: Column(mainAxisSize: MainAxisSize.min, children: [
+                              Icon(Icons.arrow_forward, color: corAv, size: 10),
+                              Icon(Icons.arrow_back,    color: corBv, size: 10),
+                            ]),
+                          ),
+                          _GolpeChip(nome: m.nomeB, corBorda: corBv),
+                        ],
+                      );
+                    }
                     final atacaA = m.atacante == Atacante.a;
                     return _GolpeChip(nome: atacaA ? m.nomeA : m.nomeB,
                         corBorda: atacaA ? corAv : corBv);
@@ -416,6 +439,32 @@ class _MovimentoRow extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      );
+    }
+
+    // Contragolpe simultâneo — ambos atacam ao mesmo tempo
+    if (mov.simultaneo) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Row(
+          children: [
+            Expanded(flex: 4,
+                child: _GolpeBox(nome: mov.nomeA, cor: corA, destaque: true, alinhaDireita: true)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.arrow_forward, color: corA, size: 16),
+                  const SizedBox(height: 2),
+                  Icon(Icons.arrow_back,    color: corB, size: 16),
+                ],
+              ),
+            ),
+            Expanded(flex: 4,
+                child: _GolpeBox(nome: mov.nomeB, cor: corB, destaque: true, alinhaDireita: false)),
+          ],
         ),
       );
     }

@@ -139,7 +139,7 @@ const List<Sequencia> sequenciasGrupo = [
     numero: 4,
     movimentos: [
       Movimento(nomeA: 'Martelo',            nomeB: 'Rasteira em pé',       atacante: Atacante.a),
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Negativa com tesoura', atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Negativa com tesoura', atacante: Atacante.a, simultaneo: true),
       Movimento(nomeA: 'Aú'), // A finaliza
     ],
   ),
@@ -153,36 +153,36 @@ const List<Sequencia> sequenciasGrupo = [
   Sequencia(
     numero: 6,
     movimentos: [
-      Movimento(nomeA: 'Martelo voador', nomeB: 'Chapéu de couro', atacante: Atacante.a),
+      Movimento(nomeA: 'Martelo voador', nomeB: 'Chapéu de couro', atacante: Atacante.a, simultaneo: true),
       Movimento(nomeA: 'Tesoura de frente'), // A finaliza
     ],
   ),
   Sequencia(
     numero: 7,
     movimentos: [
-      Movimento(nomeA: 'Martelo', nomeB: 'Chapa giratória', atacante: Atacante.a),
+      Movimento(nomeA: 'Martelo', nomeB: 'Chapa giratória', atacante: Atacante.a, simultaneo: true),
       Movimento(nomeA: 'Mola resistência'), // A finaliza
     ],
   ),
   Sequencia(
     numero: 8,
     movimentos: [
-      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Meia lua solta', atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de compasso', nomeB: 'Meia lua solta', atacante: Atacante.a, simultaneo: true),
       Movimento(nomeA: 'Cabeçada',             nomeB: 'Rolê',           atacante: Atacante.a),
     ],
   ),
   Sequencia(
     numero: 9,
     movimentos: [
-      Movimento(nomeA: 'Armada',         nomeB: 'Meia lua solta', atacante: Atacante.a),
+      Movimento(nomeA: 'Armada',         nomeB: 'Meia lua solta', atacante: Atacante.a, simultaneo: true),
       Movimento(nomeA: 'Tesoura de frente'), // A finaliza
     ],
   ),
   Sequencia(
     numero: 10,
     movimentos: [
-      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',              atacante: Atacante.a),
-      Movimento(nomeA: 'Tesoura de costas',  nomeB: 'Meia lua de compasso',   atacante: Atacante.a),
+      Movimento(nomeA: 'Meia lua de frente', nomeB: 'Cocorinha',                   atacante: Atacante.a),
+      Movimento(nomeA: 'Tesoura de costas',  nomeB: '(com meia lua de compasso)',   atacante: Atacante.a),
     ],
   ),
 ];

@@ -6,11 +6,14 @@ class Movimento {
   final String nomeB;
   // null = movimento de finalização (só um lado)
   final Atacante? atacante;
+  // true = contragolpe simultâneo (A e B atacam ao mesmo tempo)
+  final bool simultaneo;
 
   const Movimento({
     this.nomeA = '',
     this.nomeB = '',
     this.atacante,
+    this.simultaneo = false,
   });
 
   bool get ehFinalizacao => atacante == null;
