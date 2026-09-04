@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data/sequencias_data.dart';
+import '../theme_notifier.dart';
 import 'sequencia_list_screen.dart';
 import 'videos_tab_screen.dart' show buildLogoTitle;
 
@@ -8,9 +9,9 @@ class SequenciasTabScreen extends StatelessWidget {
   const SequenciasTabScreen({super.key});
 
   static const _icons = [
-    Icons.compare_arrows_rounded,   // Entrada e Saída
-    Icons.loop_rounded,             // Bimba
-    Icons.groups_outlined,          // Grupo
+    Icons.compare_arrows_rounded,
+    Icons.loop_rounded,
+    Icons.groups_outlined,
   ];
 
   @override
@@ -21,13 +22,11 @@ class SequenciasTabScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: cs.surface,
         automaticallyImplyLeading: false,
-        title: buildLogoTitle('Sequências'),
+        title: buildLogoTitle(context, 'Sequências'),
+        actions: [buildThemeToggle(context)],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            color: cs.outlineVariant,
-          ),
+          child: Container(height: 1, color: cs.outlineVariant),
         ),
       ),
       body: ListView.separated(
@@ -74,15 +73,12 @@ class _SequenciaCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: const Color(0xFFF1EDE7), // surface-container
+          color: cs.surfaceContainer,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFFDEC0B7), // outline-variant
-            width: 0.5,
-          ),
+          border: Border.all(color: cs.outlineVariant, width: 0.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF9F3C16).withOpacity(0.05),
+              color: cs.primary.withOpacity(0.05),
               blurRadius: 12,
               offset: const Offset(0, 3),
             ),
@@ -90,10 +86,8 @@ class _SequenciaCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Ícone com fundo terracota suave
             Container(
-              width: 48,
-              height: 48,
+              width: 48, height: 48,
               decoration: BoxDecoration(
                 color: cs.primary.withOpacity(0.12),
                 borderRadius: BorderRadius.circular(12),
@@ -105,22 +99,13 @@ class _SequenciaCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    titulo,
-                    style: GoogleFonts.bricolageGrotesque(
-                      color: cs.onSurface,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  Text(titulo,
+                      style: GoogleFonts.bricolageGrotesque(
+                          color: cs.onSurface, fontSize: 15, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 4),
-                  Text(
-                    subtitulo,
-                    style: GoogleFonts.plusJakartaSans(
-                      color: cs.onSurfaceVariant,
-                      fontSize: 13,
-                    ),
-                  ),
+                  Text(subtitulo,
+                      style: GoogleFonts.plusJakartaSans(
+                          color: cs.onSurfaceVariant, fontSize: 13)),
                 ],
               ),
             ),

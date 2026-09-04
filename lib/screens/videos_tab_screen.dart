@@ -1,48 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../theme_notifier.dart';
 import 'videos_screen.dart' show Video, videosHistoria;
 
 // ── Vídeos de Técnicas (YouTube Shorts do grupo) ──────────────────────────────
 const List<Video> videosTecnicas = [
-  Video(
-    id: 'tYYLh8Kqwbs',
-    title: 'Sequência de Entrada',
-    subtitle: 'Movimentos de entrada no jogo',
-  ),
-  Video(
-    id: 'x81wNaS_tS0',
-    title: 'Sequência de Saída',
-    subtitle: 'Movimentos de saída do jogo',
-  ),
-  Video(
-    id: 'u1-vQo6I0BE',
-    title: 'Sequências de Bimba',
-    subtitle: 'Técnicas e movimentos tradicionais',
-  ),
-  Video(
-    id: '0ZB3exeBtZM',
-    title: 'Sequências do Grupo',
-    subtitle: 'Movimentos do Raiz dos Palmares',
-  ),
+  Video(id: 'tYYLh8Kqwbs', title: 'Sequência de Entrada',  subtitle: 'Movimentos de entrada no jogo'),
+  Video(id: 'x81wNaS_tS0', title: 'Sequência de Saída',    subtitle: 'Movimentos de saída do jogo'),
+  Video(id: 'u1-vQo6I0BE', title: 'Sequências de Bimba',   subtitle: 'Técnicas e movimentos tradicionais'),
+  Video(id: '0ZB3exeBtZM', title: 'Sequências do Grupo',   subtitle: 'Movimentos do Raiz dos Palmares'),
 ];
 
-// ── Logo + título reutilizável (tema claro Stitch) ────────────────────────────
-Widget buildLogoTitle(String title) {
+// ── Logo + título reutilizável ────────────────────────────────────────────────
+Widget buildLogoTitle(BuildContext context, String title) {
+  final cs = Theme.of(context).colorScheme;
   return Row(
     children: [
       ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: Image.asset(
           'assets/logo_raiz_palmares.jpg',
-          height: 32,
-          width: 32,
-          fit: BoxFit.cover,
+          height: 32, width: 32, fit: BoxFit.cover,
           errorBuilder: (_, __, ___) => Container(
-            width: 32,
-            height: 32,
+            width: 32, height: 32,
             decoration: BoxDecoration(
-              color: const Color(0xFF9F3C16),
+              color: cs.primary,
               borderRadius: BorderRadius.circular(6),
             ),
             child: const Icon(Icons.star, color: Colors.white, size: 20),
@@ -53,7 +36,7 @@ Widget buildLogoTitle(String title) {
       Text(
         title,
         style: GoogleFonts.bricolageGrotesque(
-          color: const Color(0xFF1C1C18),
+          color: cs.onSurface,
           fontWeight: FontWeight.w700,
           fontSize: 18,
         ),
@@ -76,14 +59,13 @@ class VideosTabScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: cs.surface,
           automaticallyImplyLeading: false,
-          title: buildLogoTitle('Raiz dos Palmares'),
+          title: buildLogoTitle(context, 'Raiz dos Palmares'),
+          actions: [buildThemeToggle(context)],
           bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(48),
+            preferredSize: const Size.fromHeight(49),
             child: Container(
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: cs.outlineVariant, width: 1),
-                ),
+                border: Border(bottom: BorderSide(color: cs.outlineVariant, width: 1)),
               ),
               child: TabBar(
                 labelColor: cs.primary,
@@ -91,27 +73,16 @@ class VideosTabScreen extends StatelessWidget {
                 indicatorColor: cs.primary,
                 indicatorWeight: 2,
                 dividerColor: Colors.transparent,
-                labelStyle: GoogleFonts.plusJakartaSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-                unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                ),
-                tabs: const [
-                  Tab(text: 'História'),
-                  Tab(text: 'Técnicas'),
-                ],
+                labelStyle: GoogleFonts.plusJakartaSans(fontSize: 14, fontWeight: FontWeight.w600),
+                unselectedLabelStyle: GoogleFonts.plusJakartaSans(fontSize: 14),
+                tabs: const [Tab(text: 'História'), Tab(text: 'Técnicas')],
               ),
             ),
           ),
         ),
         body: TabBarView(
           children: [
-            // Aba 1: documentários — abre YouTube externo
             _VideoListView(videos: videosHistoria, isShorts: false),
-            // Aba 2: Shorts do grupo — abre app YouTube com URL /shorts/
             _VideoListView(videos: videosTecnicas, isShorts: true),
           ],
         ),
@@ -124,7 +95,6 @@ class VideosTabScreen extends StatelessWidget {
 class _VideoListView extends StatelessWidget {
   final List<Video> videos;
   final bool isShorts;
-
   const _VideoListView({required this.videos, required this.isShorts});
 
   @override
@@ -133,17 +103,15 @@ class _VideoListView extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       itemCount: videos.length,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) =>
-          _VideoCard(video: videos[index], isShorts: isShorts),
+      itemBuilder: (ctx, i) => _VideoCard(video: videos[i], isShorts: isShorts),
     );
   }
 }
 
-// ── Card de vídeo (tema claro Stitch) ─────────────────────────────────────────
+// ── Card de vídeo ─────────────────────────────────────────────────────────────
 class _VideoCard extends StatelessWidget {
   final Video video;
   final bool isShorts;
-
   const _VideoCard({required this.video, required this.isShorts});
 
   Future<void> _openVideo(BuildContext context) async {
@@ -167,15 +135,12 @@ class _VideoCard extends StatelessWidget {
       onTap: () => _openVideo(context),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFF1EDE7), // surface-container
+          color: cs.surfaceContainer,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFFDEC0B7), // outline-variant
-            width: 0.5,
-          ),
+          border: Border.all(color: cs.outlineVariant, width: 0.5),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFF9F3C16).withOpacity(0.06),
+              color: cs.primary.withOpacity(0.06),
               blurRadius: 16,
               offset: const Offset(0, 4),
             ),
@@ -195,51 +160,37 @@ class _VideoCard extends StatelessWidget {
                     video.thumbnailUrl,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => Container(
-                      color: const Color(0xFFEBE8E2),
-                      child: Icon(Icons.video_library,
-                          color: cs.outlineVariant, size: 48),
+                      color: cs.surfaceContainerHigh,
+                      child: Icon(Icons.video_library, color: cs.outlineVariant, size: 48),
                     ),
                   ),
-                  // Gradiente sutil
                   Container(
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
+                        begin: Alignment.topCenter, end: Alignment.bottomCenter,
                         colors: [Colors.transparent, Color(0x33000000)],
                       ),
                     ),
                   ),
-                  // Botão play terracota
+                  // Botão play
                   Center(
                     child: Container(
-                      width: 52,
-                      height: 52,
+                      width: 52, height: 52,
                       decoration: BoxDecoration(
                         color: cs.primary,
                         shape: BoxShape.circle,
                         boxShadow: [
-                          BoxShadow(
-                            color: cs.primary.withOpacity(0.35),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
+                          BoxShadow(color: cs.primary.withOpacity(0.35), blurRadius: 12, offset: const Offset(0, 4)),
                         ],
                       ),
-                      child: const Icon(
-                        Icons.play_arrow_rounded,
-                        color: Colors.white,
-                        size: 32,
-                      ),
+                      child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 32),
                     ),
                   ),
-                  // Badge inferior
+                  // Badge (cores fixas — sobrepõe foto)
                   Positioned(
-                    bottom: 8,
-                    right: 8,
+                    bottom: 8, right: 8,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.9),
                         borderRadius: BorderRadius.circular(20),
@@ -247,21 +198,13 @@ class _VideoCard extends StatelessWidget {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(
-                            isShorts
-                                ? Icons.play_circle_outline
-                                : Icons.open_in_new,
-                            color: cs.primary,
-                            size: 11,
-                          ),
+                          Icon(isShorts ? Icons.play_circle_outline : Icons.open_in_new,
+                              color: const Color(0xFF9F3C16), size: 11),
                           const SizedBox(width: 3),
                           Text(
                             isShorts ? 'Shorts' : 'YouTube',
                             style: GoogleFonts.plusJakartaSans(
-                              color: cs.onSurface,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w600,
-                            ),
+                              color: const Color(0xFF1C1C18), fontSize: 10, fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
@@ -276,22 +219,12 @@ class _VideoCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    video.title,
-                    style: GoogleFonts.bricolageGrotesque(
-                      color: cs.onSurface,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  Text(video.title,
+                      style: GoogleFonts.bricolageGrotesque(
+                          color: cs.onSurface, fontSize: 15, fontWeight: FontWeight.w600)),
                   const SizedBox(height: 4),
-                  Text(
-                    video.subtitle,
-                    style: GoogleFonts.plusJakartaSans(
-                      color: cs.onSurfaceVariant,
-                      fontSize: 13,
-                    ),
-                  ),
+                  Text(video.subtitle,
+                      style: GoogleFonts.plusJakartaSans(color: cs.onSurfaceVariant, fontSize: 13)),
                 ],
               ),
             ),
