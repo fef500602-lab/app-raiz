@@ -1,4 +1,4 @@
-package com.example.app_raiz
+package raiz.palmares
 
 import io.flutter.embedding.android.FlutterActivity
 

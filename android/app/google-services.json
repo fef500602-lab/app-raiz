@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "806505646912",
-    "project_id": "app-raiz-fe525",
-    "storage_bucket": "app-raiz-fe525.firebasestorage.app"
+    "project_number": "767548996809",
+    "project_id": "raiz-dos-palmares",
+    "storage_bucket": "raiz-dos-palmares.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:806505646912:android:8a8ce09efbb6c56981c8a5",
+        "mobilesdk_app_id": "1:767548996809:android:86a36c5df7725171a0e118",
         "android_client_info": {
-          "package_name": "com.example.app_raiz"
+          "package_name": "raiz.palmares"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAktJjUwD2jPkItGPgnb7nVH2It07IoMhg"
+          "current_key": "AIzaSyB2EeQ2kUh_vvkg1tsuQ1pHIF0KSWqta84"
         }
       ],
       "services": {
