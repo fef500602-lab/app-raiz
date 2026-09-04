@@ -5,6 +5,7 @@ import 'theme_notifier.dart';
 import 'screens/videos_tab_screen.dart';
 import 'screens/sequencias_tab_screen.dart';
 import 'screens/apostilas_screen.dart';
+import 'services/update_checker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,6 +88,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Verifica atualização após o primeiro frame (context disponível)
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      UpdateChecker.check(context);
+    });
+  }
 
   static const List<Widget> _screens = [
     VideosTabScreen(),
