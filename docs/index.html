@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Baixe o app oficial do Raiz dos Palmares Capoeira" />
+  <title>Raiz dos Palmares — App</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #9F3C16;
+      --primary-dk:#7A2D10;
+      --green:     #3B6752;
+      --bg:        #FDF9F3;
+      --surface:   #F1EDE7;
+      --border:    #DEC0B7;
+      --text:      #1C1C18;
+      --muted:     #57423B;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 48px;
+    }
+
+    /* ── Header ── */
+    header {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 0 24px;
+      gap: 16px;
+    }
+
+    .logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 24px;
+      object-fit: cover;
+      box-shadow: 0 8px 32px rgba(159,60,22,.25);
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: .95rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── Card principal ── */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 24px rgba(159,60,22,.08);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* ── Botão de download ── */
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 18px 24px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(159,60,22,.35);
+      transition: background .2s, transform .1s;
+      cursor: pointer;
+    }
+    .btn-download:active { background: var(--primary-dk); transform: scale(.98); }
+
+    .btn-download svg { flex-shrink: 0; }
+
+    .version-tag {
+      font-size: .78rem;
+      color: var(--muted);
+      margin-top: -12px;
+    }
+
+    /* ── Divisor ── */
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── QR Code ── */
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .qr-section img {
+      width: 160px;
+      height: 160px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 6px;
+      background: #fff;
+    }
+    .qr-label {
+      font-size: .82rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* ── Instruções ── */
+    .steps {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 8px;
+    }
+    .steps h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    .step {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .82rem;
+      font-weight: 700;
+    }
+    .step-text {
+      font-size: .92rem;
+      color: var(--muted);
+      line-height: 1.5;
+      padding-top: 4px;
+    }
+    .step-text strong { color: var(--text); }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 32px;
+      font-size: .78rem;
+      color: var(--border);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img
+      class="logo"
+      src="https://raw.githubusercontent.com/fef500602-lab/app-raiz/main/assets/logo_raiz_palmares.jpg"
+      alt="Logo Raiz dos Palmares"
+    />
+    <h1>Raiz dos Palmares</h1>
+    <p class="subtitle">Capoeira · Fundado em 1990 · Mestre Arlindo</p>
+  </header>
+
+  <div class="card">
+
+    <a
+      class="btn-download"
+      href="https://github.com/fef500602-lab/app-raiz/releases/latest/download/raiz-dos-palmares.apk"
+      download
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Baixar app (Android)
+    </a>
+
+    <p class="version-tag">Versão mais recente · gratuito</p>
+
+    <div class="divider">ou escaneie o QR Code</div>
+
+    <div class="qr-section">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=9F3C16&bgcolor=FDF9F3&data=https%3A%2F%2Ffef500602-lab.github.io%2Fapp-raiz%2F"
+        alt="QR Code para baixar o app"
+      />
+      <p class="qr-label">Aponte a câmera do celular</p>
+    </div>
+
+  </div>
+
+  <div class="steps">
+    <h2>Como instalar</h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <p class="step-text">Toque em <strong>Baixar app</strong> acima</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <p class="step-text">Aguarde o download terminar e toque na notificação ou abra o arquivo na pasta <strong>Downloads</strong></p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <p class="step-text">Se aparecer <em>"Permitir que o Chrome instale apps?"</em>, toque em <strong>Permitir</strong></p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <p class="step-text">Toque em <strong>Instalar</strong> e pronto! O app aparecerá na tela inicial</p>
+    </div>
+  </div>
+
+  <footer>
+    &copy; Raiz dos Palmares Capoeira &mdash; Mestre Arlindo
+  </footer>
+
+</body>
+</html>

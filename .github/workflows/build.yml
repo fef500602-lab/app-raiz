@@ -1,0 +1,61 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+# Permissão para criar/atualizar Releases
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Instalar dependências
+        run: flutter pub get
+
+      - name: Build APK release (arm64)
+        run: flutter build apk --release --split-per-abi --target-platform android-arm64
+
+      - name: Renomear APK
+        run: |
+          cp build/app/outputs/flutter-apk/app-arm64-v8a-release.apk \
+             build/app/outputs/flutter-apk/raiz-dos-palmares.apk
+
+      - name: Upload APK como artifact (backup)
+        uses: actions/upload-artifact@v4
+        with:
+          name: raiz-dos-palmares
+          path: build/app/outputs/flutter-apk/raiz-dos-palmares.apk
+          retention-days: 90
+
+      - name: Publicar no GitHub Releases (link fixo)
+        run: |
+          # Apaga o release "latest" anterior (se existir) e cria um novo
+          gh release delete latest --yes 2>/dev/null || true
+          git push --delete origin latest 2>/dev/null || true
+          gh release create latest \
+            --title "Raiz dos Palmares — versão mais recente" \
+            --notes "Baixe e instale o app diretamente neste link." \
+            --latest \
+            build/app/outputs/flutter-apk/raiz-dos-palmares.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
