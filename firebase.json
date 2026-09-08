@@ -1,1 +1,10 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"app-raiz-fe525","appId":"1:806505646912:android:8a8ce09efbb6c56981c8a5","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"app-raiz-fe525","configurations":{"android":"1:806505646912:android:8a8ce09efbb6c56981c8a5","ios":"1:806505646912:ios:166e78dc3bc3c8dd81c8a5","macos":"1:806505646912:ios:166e78dc3bc3c8dd81c8a5","web":"1:806505646912:web:15776825a7c5f5cb81c8a5","windows":"1:806505646912:web:b7aa0f8066d3b66681c8a5"}}}}}}
+{
+  "hosting": {
+    "public": "docs",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
